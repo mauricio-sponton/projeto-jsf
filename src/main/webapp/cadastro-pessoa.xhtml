@@ -53,6 +53,19 @@
 
 			<h:outputLabel value="Ativo: " />
 			<h:selectBooleanCheckbox value="#{pessoaBean.pessoa.ativo}" />
+			
+			<h:outputLabel value="Login: " />
+			<h:inputText value="#{pessoaBean.pessoa.login}" />
+			
+			<h:outputLabel value="Senha: " />
+			<h:inputSecret value="#{pessoaBean.pessoa.senha}" />
+			
+			<h:outputLabel value="Perfil: " />
+			<h:selectOneMenu id="perfil" value="#{pessoaBean.pessoa.perfil}">
+				<f:selectItem itemLabel="Selecione..." noSelectionOption="true"></f:selectItem>
+				<f:selectItem itemLabel="Admin" itemValue="ADMIN"></f:selectItem>
+				<f:selectItem itemLabel="Dev" itemValue="DEV"></f:selectItem>
+			</h:selectOneMenu>
 
 		</h:panelGrid>
 		<div style="margin: 0.5em 0 1em 0;">
