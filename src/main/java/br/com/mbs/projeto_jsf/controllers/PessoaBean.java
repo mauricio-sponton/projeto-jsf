@@ -51,13 +51,20 @@ public class PessoaBean {
 		Pessoa pessoaEcontrada = pessoaRepository.findByLoginESenha(pessoa.getLogin(), pessoa.getSenha());
 		
 		if(pessoaEcontrada != null) {
-			FacesContext context = FacesContext.getCurrentInstance();
-			ExternalContext externalContext = context.getExternalContext();
-			externalContext.getSessionMap().put("usuarioLogado", pessoaEcontrada.getLogin());
+			ExternalContext externalContext = getContext();
+			externalContext.getSessionMap().put("usuarioLogado", pessoaEcontrada);
 			return "cadastro-pessoa.jsf";
 		}
 		
 		return "index.jsf";
+	}
+
+	
+	public boolean permitirAcesso(String acesso) {
+		ExternalContext externalContext = getContext();
+		Pessoa pessoaLogada = (Pessoa) externalContext.getSessionMap().get("usuarioLogado");
+		
+		return pessoaLogada.getPerfil().equals(acesso);
 	}
 	
 	public Pessoa getPessoa() {
@@ -80,5 +87,10 @@ public class PessoaBean {
 		return pessoas;
 	}
 	
+	private ExternalContext getContext() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = context.getExternalContext();
+		return externalContext;
+	}
 
 }

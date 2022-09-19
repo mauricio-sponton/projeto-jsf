@@ -17,7 +17,8 @@
 <h:body>
 	<h:form id="formPessoa">
 
-		<h:panelGrid columns="2">
+		<h:panelGrid columns="2"
+			rendered="#{pessoaBean.permitirAcesso('ADMIN')}">
 			<f:facet name="header">
 				<h:outputText value="Cadastro De usuário" />
 			</f:facet>
@@ -53,13 +54,13 @@
 
 			<h:outputLabel value="Ativo: " />
 			<h:selectBooleanCheckbox value="#{pessoaBean.pessoa.ativo}" />
-			
+
 			<h:outputLabel value="Login: " />
 			<h:inputText value="#{pessoaBean.pessoa.login}" />
-			
+
 			<h:outputLabel value="Senha: " />
 			<h:inputSecret value="#{pessoaBean.pessoa.senha}" />
-			
+
 			<h:outputLabel value="Perfil: " />
 			<h:selectOneMenu id="perfil" value="#{pessoaBean.pessoa.perfil}">
 				<f:selectItem itemLabel="Selecione..." noSelectionOption="true"></f:selectItem>
@@ -67,21 +68,22 @@
 				<f:selectItem itemLabel="Dev" itemValue="DEV"></f:selectItem>
 			</h:selectOneMenu>
 
+			
 		</h:panelGrid>
-		<div style="margin: 0.5em 0 1em 0;">
-			<h:commandButton value="Novo" action="#{pessoaBean.novo}"
-				image="/resources/images/user-plus-solid.svg" styleClass="icones"
-				title="Novo" />
-			<h:commandButton style="margin-left:1em;" value="Salvar" styleClass="icones"
-				image="/resources/images/floppy-disk-solid.svg"
-				action="#{pessoaBean.salvar}" title="Salvar" />
-			<h:commandButton style="margin-left:1em;" value="Remove" styleClass="icones"
-			image="/resources/images/trash-solid.svg"
-				action="#{pessoaBean.remove}" title="Remover" />
-			<h:commandButton style="margin-left:1em;" value="Limpar" type="reset" styleClass="icones"
-			image="/resources/images/eraser-solid.svg"
-				title="Limpar" />
-		</div>
+			<h:panelGroup layout="block" style="margin: 0.5em 0 1em 0;" rendered="#{pessoaBean.permitirAcesso('ADMIN')}">
+				<h:commandButton value="Novo" action="#{pessoaBean.novo}"
+					image="/resources/images/user-plus-solid.svg" styleClass="icones"
+					title="Novo" />
+				<h:commandButton style="margin-left:1em;" value="Salvar"
+					styleClass="icones" image="/resources/images/floppy-disk-solid.svg"
+					action="#{pessoaBean.salvar}" title="Salvar" />
+				<h:commandButton style="margin-left:1em;" value="Remove"
+					styleClass="icones" image="/resources/images/trash-solid.svg"
+					action="#{pessoaBean.remove}" title="Remover" />
+				<h:commandButton style="margin-left:1em;" value="Limpar"
+					type="reset" styleClass="icones"
+					image="/resources/images/eraser-solid.svg" title="Limpar" />
+			</h:panelGroup>
 
 		<h:dataTable value="#{pessoaBean.pessoas}" var="pessoa" border="3"
 			cellpadding="6">
@@ -105,22 +107,24 @@
 				<h:outputText value="#{pessoa.sobrenome}" />
 			</h:column>
 
-			<h:column>
+			<h:column rendered="#{pessoaBean.permitirAcesso('ADMIN')}">
 				<f:facet name="header">Editar</f:facet>
 				<h:commandLink title="Editar">
 					<f:setPropertyActionListener target="#{pessoaBean.pessoa}"
 						value="#{pessoa}" />
-					<h:graphicImage value="/resources/images/pen-solid.svg" title="Editar"/>
+					<h:graphicImage value="/resources/images/pen-solid.svg"
+						title="Editar" />
 				</h:commandLink>
 			</h:column>
 
 
-			<h:column>
+			<h:column rendered="#{pessoaBean.permitirAcesso('ADMIN')}">
 				<f:facet name="header">Excluir</f:facet>
 				<h:commandLink action="#{pessoaBean.remove}">
 					<f:setPropertyActionListener target="#{pessoaBean.pessoa}"
 						value="#{pessoa}" />
-					<h:graphicImage value="/resources/images/trash-solid.svg" title="Excluir"/>
+					<h:graphicImage value="/resources/images/trash-solid.svg"
+						title="Excluir" />
 				</h:commandLink>
 			</h:column>
 
