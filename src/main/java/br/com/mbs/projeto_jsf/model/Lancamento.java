@@ -20,7 +20,7 @@ public class Lancamento implements Serializable {
 
 	private String notaFiscal;
 	private String empresaOrigem;
-	private String empresaDestion;
+	private String empresaDestino;
 
 	@ManyToOne
 	@JoinColumn(nullable = false)
@@ -50,12 +50,12 @@ public class Lancamento implements Serializable {
 		this.empresaOrigem = empresaOrigem;
 	}
 
-	public String getEmpresaDestion() {
-		return empresaDestion;
+	public String getEmpresaDestino() {
+		return empresaDestino;
 	}
 
-	public void setEmpresaDestion(String empresaDestion) {
-		this.empresaDestion = empresaDestion;
+	public void setEmpresaDestino(String empresaDestino) {
+		this.empresaDestino = empresaDestino;
 	}
 
 	public Pessoa getUsuario() {

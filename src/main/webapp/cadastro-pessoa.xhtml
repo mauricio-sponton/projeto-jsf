@@ -11,10 +11,23 @@
 .icones {
 	width: 40px;
 }
+
+.menu {
+	margin-left: 10px
+}
 </style>
 </h:head>
 
 <h:body>
+
+	<h:form>
+		<h:commandLink value="Cadastros" action="cadastro-pessoa"
+			styleClass="menu" />
+		<h:commandLink value="Lançamentos" action="lancamentos"
+			styleClass="menu" />
+		<h:commandLink value="Logout" action="index" styleClass="menu" />
+	</h:form>
+
 	<h:form id="formPessoa">
 
 		<h:panelGrid columns="2"
@@ -68,22 +81,23 @@
 				<f:selectItem itemLabel="Dev" itemValue="DEV"></f:selectItem>
 			</h:selectOneMenu>
 
-			
+
 		</h:panelGrid>
-			<h:panelGroup layout="block" style="margin: 0.5em 0 1em 0;" rendered="#{pessoaBean.permitirAcesso('ADMIN')}">
-				<h:commandButton value="Novo" action="#{pessoaBean.novo}"
-					image="/resources/images/user-plus-solid.svg" styleClass="icones"
-					title="Novo" />
-				<h:commandButton style="margin-left:1em;" value="Salvar"
-					styleClass="icones" image="/resources/images/floppy-disk-solid.svg"
-					action="#{pessoaBean.salvar}" title="Salvar" />
-				<h:commandButton style="margin-left:1em;" value="Remove"
-					styleClass="icones" image="/resources/images/trash-solid.svg"
-					action="#{pessoaBean.remove}" title="Remover" />
-				<h:commandButton style="margin-left:1em;" value="Limpar"
-					type="reset" styleClass="icones"
-					image="/resources/images/eraser-solid.svg" title="Limpar" />
-			</h:panelGroup>
+		<h:panelGroup layout="block" style="margin: 0.5em 0 1em 0;"
+			rendered="#{pessoaBean.permitirAcesso('ADMIN')}">
+			<h:commandButton value="Novo" action="#{pessoaBean.novo}"
+				image="/resources/images/user-plus-solid.svg" styleClass="icones"
+				title="Novo" />
+			<h:commandButton style="margin-left:1em;" value="Salvar"
+				styleClass="icones" image="/resources/images/floppy-disk-solid.svg"
+				action="#{pessoaBean.salvar}" title="Salvar" />
+			<h:commandButton style="margin-left:1em;" value="Remove"
+				styleClass="icones" image="/resources/images/trash-solid.svg"
+				action="#{pessoaBean.remove}" title="Remover" />
+			<h:commandButton style="margin-left:1em;" value="Limpar" type="reset"
+				styleClass="icones" image="/resources/images/eraser-solid.svg"
+				title="Limpar" />
+		</h:panelGroup>
 
 		<h:dataTable value="#{pessoaBean.pessoas}" var="pessoa" border="3"
 			cellpadding="6">
