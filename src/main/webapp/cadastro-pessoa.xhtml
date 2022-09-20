@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui = "http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
 	<title>Cadastro de Usuário</title>
@@ -17,7 +17,7 @@
 	margin-left: 10px
 }
 
-.msg-sucesso{
+.msg-sucesso {
 	color: white;
 	text-decoration: none;
 	background: green;
@@ -27,12 +27,12 @@
 </h:head>
 
 <h:body>
-	
+
 	<ui:include src="menu.xhtml" />
-	
+
 
 	<h:form id="formPessoa">
-		<h:messages styleClass="msg-sucesso"/>
+		<h:messages styleClass="msg-sucesso" />
 		<h:panelGrid columns="2"
 			rendered="#{pessoaBean.permitirAcesso('ADMIN')}">
 			<f:facet name="header">
@@ -43,18 +43,45 @@
 			<h:inputText value="#{pessoaBean.pessoa.id}" readonly="true" />
 
 			<h:outputLabel value="Nome:" />
-			<h:inputText value="#{pessoaBean.pessoa.nome}" />
+			<h:inputText value="#{pessoaBean.pessoa.nome}" required="true"
+				requiredMessage="Informe o nome do usuário" />
 
 			<h:outputLabel value="Sobrenome:" />
 			<h:inputText value="#{pessoaBean.pessoa.sobrenome}" />
 
 			<h:outputLabel value="Idade:" />
-			<h:inputText value="#{pessoaBean.pessoa.idade}" />
-			
-			<h:outputLabel value="Data de Nascimento: "/>
-			<h:inputText value="#{pessoaBean.pessoa.dataNascimento}" converterMessage="Formato inválido">
-				<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR"/>
+			<h:inputText value="#{pessoaBean.pessoa.idade}" required="true"
+				requiredMessage="Informe a idade do usuário"
+				validatorMessage="A idade do usuário deve estar entre 2 a 3 caracteres!">
+				<f:validateLength minimum="2" maximum="3" />
 			</h:inputText>
+
+			<h:outputLabel value="Data de Nascimento: " />
+			<h:inputText value="#{pessoaBean.pessoa.dataNascimento}"
+				converterMessage="Formato inválido">
+				<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" />
+			</h:inputText>
+			
+			<h:outputLabel value="CEP: " />
+			<h:inputText value="#{pessoaBean.pessoa.cep}">
+				<f:ajax event="blur" execute="@this" listener="#{pessoaBean.pesquisarCep}" render="logradouro bairro localidade uf complemento"/>
+			</h:inputText>
+			
+			<h:outputLabel value="Logradouro" />
+			<h:inputText value="#{pessoaBean.pessoa.logradouro}" id="logradouro"/>
+			
+			<h:outputLabel value="Bairro:" />
+			<h:inputText value="#{pessoaBean.pessoa.bairro}" id="bairro"/>
+			
+			<h:outputLabel value="Cidade:" />
+			<h:inputText value="#{pessoaBean.pessoa.localidade}" id="localidade"/>
+			
+			<h:outputLabel value="Estado:" />
+			<h:inputText value="#{pessoaBean.pessoa.uf}" id="uf" />
+			
+			<h:outputLabel value="Complemento:" />
+			<h:inputText value="#{pessoaBean.pessoa.complemento}" id="complemento"/>
+			
 
 			<h:outputLabel value="Sexo: " />
 			<h:selectOneMenu id="sexo" value="#{pessoaBean.pessoa.sexo}">
@@ -119,11 +146,11 @@
 			<h:commandButton style="margin-left:1em;" value="Remove"
 				styleClass="icones" image="/resources/images/trash-solid.svg"
 				action="#{pessoaBean.remove}" title="Remover" />
-			<h:commandButton style="margin-left:1em;" value="Limpar" type="reset"
-				styleClass="icones" image="/resources/images/eraser-solid.svg"
-				title="Limpar" />
 		</h:panelGroup>
 
+	</h:form>
+
+	<h:form>
 		<h:dataTable value="#{pessoaBean.pessoas}" var="pessoa" border="3"
 			cellpadding="6">
 

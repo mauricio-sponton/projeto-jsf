@@ -27,12 +27,18 @@ public class Pessoa implements Serializable {
 	private Date dataNascimento;
 
 	private String sexo;
+	private String cep;
+	private String logradouro;
+	private String complemento;
+	private String bairro;
+	private String localidade;
+	private String uf;
 	private String[] frameworks;
 	private boolean ativo;
 	private String login;
 	private String senha;
 	private String perfil;
-	
+
 	private String nivelProgramacao;
 	private Integer[] linguagens;
 
@@ -74,6 +80,54 @@ public class Pessoa implements Serializable {
 
 	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
+	}
+
+	public String getCep() {
+		return cep;
+	}
+
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+
+	public String getLogradouro() {
+		return logradouro;
+	}
+
+	public void setLogradouro(String logradouro) {
+		this.logradouro = logradouro;
+	}
+
+	public String getComplemento() {
+		return complemento;
+	}
+
+	public void setComplemento(String complemento) {
+		this.complemento = complemento;
+	}
+
+	public String getBairro() {
+		return bairro;
+	}
+
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+
+	public String getLocalidade() {
+		return localidade;
+	}
+
+	public void setLocalidade(String localidade) {
+		this.localidade = localidade;
+	}
+
+	public String getUf() {
+		return uf;
+	}
+
+	public void setUf(String uf) {
+		this.uf = uf;
 	}
 
 	public String getSexo() {
@@ -123,19 +177,19 @@ public class Pessoa implements Serializable {
 	public void setPerfil(String perfil) {
 		this.perfil = perfil;
 	}
-	
+
 	public String getNivelProgramacao() {
 		return nivelProgramacao;
 	}
-	
+
 	public void setNivelProgramacao(String nivelProgramacao) {
 		this.nivelProgramacao = nivelProgramacao;
 	}
-	
+
 	public Integer[] getLinguagens() {
 		return linguagens;
 	}
-	
+
 	public void setLinguagens(Integer[] linguagens) {
 		this.linguagens = linguagens;
 	}
