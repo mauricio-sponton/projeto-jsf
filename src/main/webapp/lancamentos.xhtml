@@ -52,7 +52,7 @@
 		
 		<h:panelGroup layout="block" style="margin: 0.5em 0 1em 0;"
 			>
-			<h:commandButton value="Novo" action="#{pessoaBean.novo}"
+			<h:commandButton value="Novo" action="#{lancamentoBean.novo}"
 				image="/resources/images/user-plus-solid.svg" styleClass="icones"
 				title="Novo" />
 			<h:commandButton style="margin-left:1em;" value="Salvar"
@@ -65,6 +65,44 @@
 				styleClass="icones" image="/resources/images/eraser-solid.svg"
 				title="Limpar" />
 		</h:panelGroup>
+		
+		<h:dataTable value="#{lancamentoBean.lancamentos}" var="l" border="3">
+			<f:facet name="header">Lista de lançamentos</f:facet>
+			<h:column>
+				<f:facet name="header">Id</f:facet>
+				<h:outputLabel value="#{l.id}"/>
+			</h:column>
+			<h:column>
+				<f:facet name="header">Nota Fiscal</f:facet>
+				<h:outputLabel value="#{l.notaFiscal}"/>
+			</h:column>
+			<h:column>
+				<f:facet name="header">Empresa Origem</f:facet>
+				<h:outputLabel value="#{l.empresaOrigem}"/>
+			</h:column>
+			<h:column>
+				<f:facet name="header">Empresa Destino</f:facet>
+				<h:outputLabel value="#{l.empresaDestino}"/>
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Editar</f:facet>
+				<h:commandLink title="Editar" >
+					<h:graphicImage value="/resources/images/pen-solid.svg" title="Editar" />
+					<f:setPropertyActionListener value="#{l}" target="#{lancamentoBean.lancamento}" />
+				</h:commandLink>
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Excluir</f:facet>
+				<h:commandLink title="Excluir" action="#{lancamentoBean.remove}" >
+					<h:graphicImage value="/resources/images/trash-solid.svg" title="Excluir" />
+					<f:setPropertyActionListener value="#{l}" target="#{lancamentoBean.lancamento}" />
+				</h:commandLink>
+			</h:column>
+			
+			
+		</h:dataTable>
 
 	</h:form>
 </h:body>
