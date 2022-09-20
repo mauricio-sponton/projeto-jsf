@@ -15,6 +15,13 @@
 .menu {
 	margin-left: 10px
 }
+
+.msg-sucesso{
+	color: white;
+	text-decoration: none;
+	background: green;
+	padding: 10px;
+}
 </style>
 </h:head>
 
@@ -29,7 +36,7 @@
 	</h:form>
 
 	<h:form id="formPessoa">
-
+		<h:messages styleClass="msg-sucesso"/>
 		<h:panelGrid columns="2"
 			rendered="#{pessoaBean.permitirAcesso('ADMIN')}">
 			<f:facet name="header">

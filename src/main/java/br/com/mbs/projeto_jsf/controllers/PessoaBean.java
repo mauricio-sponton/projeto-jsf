@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
@@ -24,8 +25,15 @@ public class PessoaBean {
 	private PessoaRepository pessoaRepository = new PessoaRepositoryImpl();
 
 	public String salvar() {
+		if(pessoa.getId() != null) {
+			mostrarMensagem("Edição efetuada com sucesso!");
+		}else {
+			mostrarMensagem("Usuário cadastrado com sucesso!");
+			
+		}
 		pessoa = DAOGenerico.merge(pessoa);
 		carregarPessoas();
+		
 		return "";
 	}
 
@@ -38,6 +46,7 @@ public class PessoaBean {
 		DAOGenerico.deletePorId(pessoa);
 		pessoa = new Pessoa();
 		carregarPessoas();
+		mostrarMensagem("Usuário excluído!");
 		return "";
 	}
 	
@@ -65,6 +74,12 @@ public class PessoaBean {
 		Pessoa pessoaLogada = (Pessoa) externalContext.getSessionMap().get("usuarioLogado");
 		
 		return pessoaLogada.getPerfil().equals(acesso);
+	}
+	
+	private void mostrarMensagem(String mensagem) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		FacesMessage message = new FacesMessage(mensagem);
+		context.addMessage(null, message);
 	}
 	
 	public Pessoa getPessoa() {
