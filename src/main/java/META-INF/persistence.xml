@@ -8,6 +8,8 @@
 	
 	<class>br.com.mbs.projeto_jsf.model.Pessoa</class>
 	<class>br.com.mbs.projeto_jsf.model.Lancamento</class>
+	<class>br.com.mbs.projeto_jsf.model.Estado</class>
+	<class>br.com.mbs.projeto_jsf.model.Cidade</class>
 
 		<properties>
 			<property name="javax.persistence.jdbc.url"

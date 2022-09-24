@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
 <h:head>
 	<title>Cadastro de Usuário</title>
@@ -43,11 +44,11 @@
 			<h:inputText value="#{pessoaBean.pessoa.id}" readonly="true" />
 
 			<h:outputLabel value="Nome:" />
-			<h:inputText value="#{pessoaBean.pessoa.nome}" required="true"
+			<h:inputText value="#{pessoaBean.pessoa.nome}" required="true" pt:placeholder="Ex: Maurício..."
 				requiredMessage="Informe o nome do usuário" />
 
 			<h:outputLabel value="Sobrenome:" />
-			<h:inputText value="#{pessoaBean.pessoa.sobrenome}" />
+			<h:inputText value="#{pessoaBean.pessoa.sobrenome}" pt:placeholder="Ex: Sponton..."/>
 
 			<h:outputLabel value="Idade:" />
 			<h:inputText value="#{pessoaBean.pessoa.idade}" required="true"
@@ -57,13 +58,13 @@
 			</h:inputText>
 
 			<h:outputLabel value="Data de Nascimento: " />
-			<h:inputText value="#{pessoaBean.pessoa.dataNascimento}"
+			<h:inputText value="#{pessoaBean.pessoa.dataNascimento}" pt:placeholder="Ex: 11/08/1990"
 				converterMessage="Formato inválido">
 				<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" />
 			</h:inputText>
 			
 			<h:outputLabel value="CEP: " />
-			<h:inputText value="#{pessoaBean.pessoa.cep}">
+			<h:inputText value="#{pessoaBean.pessoa.cep}" pt:placeholder="Ex: 11740000...">
 				<f:ajax event="blur" execute="@this" listener="#{pessoaBean.pesquisarCep}" render="logradouro bairro localidade uf complemento"/>
 			</h:inputText>
 			
@@ -132,6 +133,11 @@
 				<f:selectItem itemValue="4" itemLabel=".Net" />
 				<f:selectItem itemValue="5" itemLabel="Python" />
 			</h:selectManyCheckbox>
+			
+			<h:outputLabel value="Estados: " />
+			<h:selectOneMenu value="#{pessoaBean.pessoa.estado}">
+				<f:selectItems value="#{pessoaBean.estados}"/>
+			</h:selectOneMenu>
 
 
 		</h:panelGrid>

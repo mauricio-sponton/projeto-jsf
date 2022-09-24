@@ -1,7 +1,12 @@
 package br.com.mbs.projeto_jsf.repository;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 
+import br.com.mbs.projeto_jsf.model.Estado;
 import br.com.mbs.projeto_jsf.model.Pessoa;
 import br.com.mbs.projeto_jsf.util.JPAUtil;
 
@@ -19,6 +24,20 @@ public class PessoaRepositoryImpl implements PessoaRepository {
 		manager.close();
 
 		return pessoa;
+	}
+
+	@Override
+	public List<SelectItem> listarEstados() {
+		
+		EntityManager manager = JPAUtil.getEntityManager();
+		List<SelectItem> items = new ArrayList<>();
+		
+		List<Estado> estados = manager.createQuery("select e from Estado e").getResultList();	
+		
+		for (Estado estado : estados) {
+			items.add(new SelectItem(estado, estado.getNome()));
+		}
+		return items;
 	}
 
 }

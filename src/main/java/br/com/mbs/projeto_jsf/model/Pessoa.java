@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 public class Pessoa implements Serializable {
@@ -41,6 +42,9 @@ public class Pessoa implements Serializable {
 
 	private String nivelProgramacao;
 	private Integer[] linguagens;
+	
+	@Transient
+	private Estado estado;
 
 	public Long getId() {
 		return id;
@@ -192,6 +196,14 @@ public class Pessoa implements Serializable {
 
 	public void setLinguagens(Integer[] linguagens) {
 		this.linguagens = linguagens;
+	}
+	
+	public Estado getEstado() {
+		return estado;
+	}
+	
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
 
 	@Override
