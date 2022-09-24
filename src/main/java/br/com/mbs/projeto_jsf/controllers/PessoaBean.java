@@ -15,6 +15,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.Gson;
 
@@ -72,6 +73,18 @@ public class PessoaBean {
 			externalContext.getSessionMap().put("usuarioLogado", pessoaEcontrada);
 			return "cadastro-pessoa.jsf";
 		}
+		
+		return "index.jsf";
+	}
+	
+	public String deslogar() {
+		
+		FacesContext context = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = context.getExternalContext();
+		externalContext.getSessionMap().remove("usuarioLogado");
+		
+		HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+		request.getSession().invalidate();
 		
 		return "index.jsf";
 	}
