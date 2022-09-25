@@ -21,7 +21,12 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.gson.Gson;
 
 import br.com.mbs.projeto_jsf.dao.DAOGenerico;
+import br.com.mbs.projeto_jsf.model.Estado;
 import br.com.mbs.projeto_jsf.model.Pessoa;
+import br.com.mbs.projeto_jsf.repository.CidadeRepository;
+import br.com.mbs.projeto_jsf.repository.CidadeRepositoryImpl;
+import br.com.mbs.projeto_jsf.repository.EstadoRepository;
+import br.com.mbs.projeto_jsf.repository.EstadoRepositoryImpl;
 import br.com.mbs.projeto_jsf.repository.PessoaRepository;
 import br.com.mbs.projeto_jsf.repository.PessoaRepositoryImpl;
 
@@ -33,7 +38,10 @@ public class PessoaBean {
 	private DAOGenerico<Pessoa> DAOGenerico = new DAOGenerico<Pessoa>();
 	private List<Pessoa> pessoas = new ArrayList<Pessoa>();
 	private PessoaRepository pessoaRepository = new PessoaRepositoryImpl();
+	private EstadoRepository estadoRepository = new EstadoRepositoryImpl();
+	private CidadeRepository cidadeRepository = new CidadeRepositoryImpl();
 	private List<SelectItem> estados;
+	private List<SelectItem> cidades;
 
 	public String salvar() {
 		if (pessoa.getId() != null) {
@@ -129,8 +137,26 @@ public class PessoaBean {
 	}
 
 	public List<SelectItem> getEstados() {
-		estados = pessoaRepository.listarEstados();
+		estados = estadoRepository.listarEstados();
 		return estados;
+	}
+	
+	public List<SelectItem> getCidades() {
+		return cidades;
+	}
+	
+	public void carregaCidades(AjaxBehaviorEvent event) {
+		
+		String idEstado = (String) event.getComponent().getAttributes().get("submittedValue");
+		
+		if(idEstado != null) {
+			Estado estado = estadoRepository.findById(Long.parseLong(idEstado));
+			if(estado != null) {
+				pessoa.setEstado(estado);
+				cidades = cidadeRepository.listarCidades(estado.getId());
+			}
+		}
+		
 	}
 
 	private void mostrarMensagem(String mensagem) {
