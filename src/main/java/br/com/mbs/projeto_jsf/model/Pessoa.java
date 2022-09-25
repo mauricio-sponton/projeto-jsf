@@ -4,10 +4,14 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -43,12 +47,21 @@ public class Pessoa implements Serializable {
 
 	private String nivelProgramacao;
 	private Integer[] linguagens;
-	
+
 	@Transient
 	private Estado estado;
-	
+
 	@ManyToOne
 	private Cidade cidade;
+
+	@Column(columnDefinition = "LONGBLOB")
+	private String icone;
+
+	private String extensao;
+
+	@Lob
+	@Basic(fetch = FetchType.LAZY)
+	private byte[] foto;
 
 	public Long getId() {
 		return id;
@@ -201,21 +214,45 @@ public class Pessoa implements Serializable {
 	public void setLinguagens(Integer[] linguagens) {
 		this.linguagens = linguagens;
 	}
-	
+
 	public Estado getEstado() {
 		return estado;
 	}
-	
+
 	public void setEstado(Estado estado) {
 		this.estado = estado;
 	}
-	
+
 	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
 	}
-	
+
 	public Cidade getCidade() {
 		return cidade;
+	}
+
+	public String getIcone() {
+		return icone;
+	}
+
+	public void setIcone(String icone) {
+		this.icone = icone;
+	}
+
+	public String getExtensao() {
+		return extensao;
+	}
+
+	public void setExtensao(String extensao) {
+		this.extensao = extensao;
+	}
+
+	public byte[] getFoto() {
+		return foto;
+	}
+
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
 	}
 
 	@Override
