@@ -18,6 +18,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 
 import com.google.gson.Gson;
 
@@ -43,6 +44,7 @@ public class PessoaBean {
 	private CidadeRepository cidadeRepository = new CidadeRepositoryImpl();
 	private List<SelectItem> estados;
 	private List<SelectItem> cidades;
+	private Part arquivo;
 
 	public String salvar() {
 		if (pessoa.getId() != null) {
@@ -192,6 +194,14 @@ public class PessoaBean {
 
 	public List<Pessoa> getPessoas() {
 		return pessoas;
+	}
+	
+	public Part getArquivo() {
+		return arquivo;
+	}
+	
+	public void setArquivo(Part arquivo) {
+		this.arquivo = arquivo;
 	}
 
 	private ExternalContext getContext() {
