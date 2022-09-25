@@ -26,4 +26,10 @@ public class CidadeRepositoryImpl implements CidadeRepository{
 		return items;
 	}
 
+	@Override
+	public Cidade findById(Long cidadeId) {
+		EntityManager manager = JPAUtil.getEntityManager();
+		return manager.find(Cidade.class, cidadeId);
+	}
+
 }
