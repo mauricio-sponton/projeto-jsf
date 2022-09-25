@@ -20,7 +20,7 @@ public class EstadoRepositoryImpl implements EstadoRepository{
 		List<Estado> estados = manager.createQuery("select e from Estado e").getResultList();	
 		
 		for (Estado estado : estados) {
-			items.add(new SelectItem(estado.getId(), estado.getNome()));
+			items.add(new SelectItem(estado, estado.getNome()));
 		}
 		return items;
 	}

@@ -135,14 +135,14 @@
 			</h:selectManyCheckbox>
 			
 			<h:outputLabel value="Estados: " />
-			<h:selectOneMenu value="#{pessoaBean.pessoa.estado}" immediate="true">
+			<h:selectOneMenu value="#{pessoaBean.pessoa.estado}" immediate="true" id="comboEstado" converter="estadoConverter">
 				<f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
 				<f:selectItems value="#{pessoaBean.estados}"/>
 				<f:ajax event="change" execute="@this" listener="#{pessoaBean.carregaCidades}" render="comboCidade"/>
 			</h:selectOneMenu>
 			
 			<h:outputLabel value="Cidades: " />
-			<h:selectOneMenu value="#{pessoaBean.pessoa.cidade}" id="comboCidade">
+			<h:selectOneMenu value="#{pessoaBean.pessoa.cidade}" id="comboCidade" converter="cidadeConverter">
 				<f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
 				<f:selectItems value="#{pessoaBean.cidades}"/>
 			</h:selectOneMenu>
@@ -189,7 +189,7 @@
 
 			<h:column rendered="#{pessoaBean.permitirAcesso('ADMIN')}">
 				<f:facet name="header">Editar</f:facet>
-				<h:commandLink title="Editar">
+				<h:commandLink title="Editar" action="#{pessoaBean.editar}">
 					<f:setPropertyActionListener target="#{pessoaBean.pessoa}"
 						value="#{pessoa}" />
 					<h:graphicImage value="/resources/images/pen-solid.svg"

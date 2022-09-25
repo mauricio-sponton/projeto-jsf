@@ -11,7 +11,7 @@ import br.com.mbs.projeto_jsf.model.Estado;
 import br.com.mbs.projeto_jsf.repository.EstadoRepository;
 import br.com.mbs.projeto_jsf.repository.EstadoRepositoryImpl;
 
-@FacesConverter(forClass = Estado.class)
+@FacesConverter(forClass = Estado.class, value = "estadoConverter")
 public class EstadoConverter implements Converter, Serializable{
 	private static final long serialVersionUID = 1L;
 
@@ -25,7 +25,16 @@ public class EstadoConverter implements Converter, Serializable{
 
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object estado) {
-		return ((Estado) estado).getId().toString();
+		
+		if(estado == null) {
+			return null;
+		}
+		
+		if(estado instanceof Estado) {
+			return ((Estado) estado).getId().toString();
+		}
+		
+		return estado.toString();
 	}
 
 }

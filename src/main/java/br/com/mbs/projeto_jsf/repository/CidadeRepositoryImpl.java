@@ -20,7 +20,7 @@ public class CidadeRepositoryImpl implements CidadeRepository{
 		List<Cidade> cidades = manager.createQuery("select c from Cidade c where c.estado.id = " + estadoId).getResultList();	
 		
 		for (Cidade cidade : cidades) {
-			items.add(new SelectItem(cidade.getId(), cidade.getNome()));
+			items.add(new SelectItem(cidade, cidade.getNome()));
 		}
 		
 		return items;

@@ -11,21 +11,30 @@ import br.com.mbs.projeto_jsf.model.Cidade;
 import br.com.mbs.projeto_jsf.repository.CidadeRepository;
 import br.com.mbs.projeto_jsf.repository.CidadeRepositoryImpl;
 
-@FacesConverter(forClass = Cidade.class)
-public class CidadeConverter implements Converter, Serializable{
+@FacesConverter(forClass = Cidade.class, value = "cidadeConverter")
+public class CidadeConverter implements Converter, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String idCidade) {
 		CidadeRepository repository = new CidadeRepositoryImpl();
 		Cidade cidade = repository.findById(Long.parseLong(idCidade));
-		
+
 		return cidade;
 	}
 
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object cidade) {
-		return ((Cidade) cidade).getId().toString();
+
+		if (cidade == null) {
+			return null;
+		}
+
+		if (cidade instanceof Cidade) {
+			return ((Cidade) cidade).getId().toString();
+		}
+
+		return cidade.toString();
 	}
 
 }

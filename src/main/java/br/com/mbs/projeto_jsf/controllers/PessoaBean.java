@@ -12,6 +12,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -59,6 +60,17 @@ public class PessoaBean {
 	public String novo() {
 		pessoa = new Pessoa();
 		return "";
+	}
+	
+	public void editar() {
+		if(pessoa.getCidade() != null) {
+			Estado estado = pessoa.getCidade().getEstado();
+			
+			if (estado != null) {
+				pessoa.setEstado(estado);
+				cidades = cidadeRepository.listarCidades(estado.getId());
+			}
+		}
 	}
 
 	public String remove() {
@@ -140,23 +152,20 @@ public class PessoaBean {
 		estados = estadoRepository.listarEstados();
 		return estados;
 	}
-	
+
 	public List<SelectItem> getCidades() {
 		return cidades;
 	}
-	
+
 	public void carregaCidades(AjaxBehaviorEvent event) {
-		
-		String idEstado = (String) event.getComponent().getAttributes().get("submittedValue");
-		
-		if(idEstado != null) {
-			Estado estado = estadoRepository.findById(Long.parseLong(idEstado));
-			if(estado != null) {
-				pessoa.setEstado(estado);
-				cidades = cidadeRepository.listarCidades(estado.getId());
-			}
+
+		Estado estado = (Estado) ((HtmlSelectOneMenu) event.getSource()).getValue();
+
+		if (estado != null) {
+			pessoa.setEstado(estado);
+			cidades = cidadeRepository.listarCidades(estado.getId());
 		}
-		
+
 	}
 
 	private void mostrarMensagem(String mensagem) {
