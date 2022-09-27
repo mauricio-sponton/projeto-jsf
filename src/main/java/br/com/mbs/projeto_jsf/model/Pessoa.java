@@ -54,7 +54,7 @@ public class Pessoa implements Serializable {
 	@ManyToOne
 	private Cidade cidade;
 
-	@Column(columnDefinition = "LONGBLOB")
+	//@Column(columnDefinition = "LONGBLOB")
 	private String icone;
 
 	private String extensao;

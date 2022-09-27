@@ -65,4 +65,10 @@ public class DAOGenerico<E> {
 
 		return retorno;
 	}
+	
+	public E consultar(Class<E> entidade, String id) {
+		EntityManager entityManager = JPAUtil.getEntityManager();
+		E objeto = (E) entityManager.find(entidade, Long.parseLong(id));
+		return objeto;
+	}
 }

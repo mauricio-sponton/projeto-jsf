@@ -12,6 +12,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -24,6 +25,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import javax.xml.bind.DatatypeConverter;
 
@@ -60,12 +62,13 @@ public class PessoaBean {
 			mostrarMensagem("Usuário cadastrado com sucesso!");
 
 		}
-		
+
 		processarImagem();
-		
+
 		pessoa = DAOGenerico.merge(pessoa);
 		carregarPessoas();
-
+		carregarCidadesEstados();
+		
 		return "";
 	}
 
@@ -74,7 +77,12 @@ public class PessoaBean {
 		return "";
 	}
 
-	public void editar() {
+	public String editar() {
+		carregarCidadesEstados();
+		return "";
+	}
+
+	private void carregarCidadesEstados() {
 		if (pessoa.getCidade() != null) {
 			Estado estado = pessoa.getCidade().getEstado();
 
@@ -160,15 +168,6 @@ public class PessoaBean {
 		}
 	}
 
-	public List<SelectItem> getEstados() {
-		estados = estadoRepository.listarEstados();
-		return estados;
-	}
-
-	public List<SelectItem> getCidades() {
-		return cidades;
-	}
-
 	public void carregaCidades(AjaxBehaviorEvent event) {
 
 		Estado estado = (Estado) ((HtmlSelectOneMenu) event.getSource()).getValue();
@@ -178,6 +177,20 @@ public class PessoaBean {
 			cidades = cidadeRepository.listarCidades(estado.getId());
 		}
 
+	}
+
+	public void downloadArquivo() throws IOException {
+		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		String fileDownloadId = params.get("fileDownloadId");
+		
+		Pessoa pessoa = DAOGenerico.consultar(Pessoa.class, fileDownloadId);
+		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+		response.addHeader("Content-Disposition", "attachment; filename=download." + pessoa.getExtensao());
+		response.setContentType("application/octet-stream");
+		response.setContentLength(pessoa.getFoto().length);
+		response.getOutputStream().write(pessoa.getFoto());
+		response.getOutputStream().flush();
+		FacesContext.getCurrentInstance().responseComplete();
 	}
 
 	private void mostrarMensagem(String mensagem) {
@@ -198,7 +211,7 @@ public class PessoaBean {
 
 		BufferedImage resizedImage = new BufferedImage(largura, altura, type);
 		Graphics2D graphics2d = resizedImage.createGraphics();
-		graphics2d.drawImage(resizedImage, 0, 0, largura, altura, null);
+		graphics2d.drawImage(bufferedImage, 0, 0, largura, altura, null);
 		graphics2d.dispose();
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -207,7 +220,7 @@ public class PessoaBean {
 
 		String miniatura = "data:" + arquivo.getContentType() + ";base64,"
 				+ DatatypeConverter.printBase64Binary(outputStream.toByteArray());
-		
+
 		pessoa.setIcone(miniatura);
 		pessoa.setExtensao(extensao);
 	}
@@ -270,4 +283,12 @@ public class PessoaBean {
 		return externalContext;
 	}
 
+	public List<SelectItem> getEstados() {
+		estados = estadoRepository.listarEstados();
+		return estados;
+	}
+
+	public List<SelectItem> getCidades() {
+		return cidades;
+	}
 }
