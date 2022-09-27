@@ -1,6 +1,11 @@
 package br.com.mbs.projeto_jsf.controllers;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -17,8 +22,10 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
+import javax.xml.bind.DatatypeConverter;
 
 import com.google.gson.Gson;
 
@@ -46,13 +53,16 @@ public class PessoaBean {
 	private List<SelectItem> cidades;
 	private Part arquivo;
 
-	public String salvar() {
+	public String salvar() throws IOException {
 		if (pessoa.getId() != null) {
 			mostrarMensagem("Edição efetuada com sucesso!");
 		} else {
 			mostrarMensagem("Usuário cadastrado com sucesso!");
 
 		}
+		
+		processarImagem();
+		
 		pessoa = DAOGenerico.merge(pessoa);
 		carregarPessoas();
 
@@ -63,11 +73,11 @@ public class PessoaBean {
 		pessoa = new Pessoa();
 		return "";
 	}
-	
+
 	public void editar() {
-		if(pessoa.getCidade() != null) {
+		if (pessoa.getCidade() != null) {
 			Estado estado = pessoa.getCidade().getEstado();
-			
+
 			if (estado != null) {
 				pessoa.setEstado(estado);
 				cidades = cidadeRepository.listarCidades(estado.getId());
@@ -176,6 +186,56 @@ public class PessoaBean {
 		context.addMessage(null, message);
 	}
 
+	private void processarImagem() throws IOException {
+		byte[] imagemByte = getByte(arquivo.getInputStream());
+		pessoa.setFoto(imagemByte);
+
+		BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imagemByte));
+
+		int type = bufferedImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : bufferedImage.getType();
+		int largura = 200;
+		int altura = 200;
+
+		BufferedImage resizedImage = new BufferedImage(largura, altura, type);
+		Graphics2D graphics2d = resizedImage.createGraphics();
+		graphics2d.drawImage(resizedImage, 0, 0, largura, altura, null);
+		graphics2d.dispose();
+
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		String extensao = arquivo.getContentType().split("/")[1];
+		ImageIO.write(resizedImage, extensao, outputStream);
+
+		String miniatura = "data:" + arquivo.getContentType() + ";base64,"
+				+ DatatypeConverter.printBase64Binary(outputStream.toByteArray());
+		
+		pessoa.setIcone(miniatura);
+		pessoa.setExtensao(extensao);
+	}
+
+	private byte[] getByte(InputStream stream) throws IOException {
+		int lenght;
+		int size = 1024;
+		byte[] buffer = null;
+
+		if (stream instanceof ByteArrayInputStream) {
+			size = stream.available();
+			buffer = new byte[size];
+			lenght = stream.read(buffer, 0, size);
+		} else {
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			buffer = new byte[size];
+
+			while ((lenght = stream.read(buffer, 0, size)) != -1) {
+				outputStream.write(buffer, 0, lenght);
+			}
+
+			buffer = outputStream.toByteArray();
+		}
+
+		return buffer;
+
+	}
+
 	public Pessoa getPessoa() {
 		return pessoa;
 	}
@@ -195,11 +255,11 @@ public class PessoaBean {
 	public List<Pessoa> getPessoas() {
 		return pessoas;
 	}
-	
+
 	public Part getArquivo() {
 		return arquivo;
 	}
-	
+
 	public void setArquivo(Part arquivo) {
 		this.arquivo = arquivo;
 	}
