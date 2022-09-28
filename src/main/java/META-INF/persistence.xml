@@ -4,12 +4,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
 	<persistence-unit name="projeto-jsf">
-	
-	
-	<class>br.com.mbs.projeto_jsf.model.Pessoa</class>
-	<class>br.com.mbs.projeto_jsf.model.Lancamento</class>
-	<class>br.com.mbs.projeto_jsf.model.Estado</class>
-	<class>br.com.mbs.projeto_jsf.model.Cidade</class>
+
+
+		<class>br.com.mbs.projeto_jsf.model.Pessoa</class>
+		<class>br.com.mbs.projeto_jsf.model.Lancamento</class>
+		<class>br.com.mbs.projeto_jsf.model.Estado</class>
+		<class>br.com.mbs.projeto_jsf.model.Cidade</class>
 
 		<properties>
 			<property name="javax.persistence.jdbc.url"
@@ -19,16 +19,27 @@
 				value="root" />
 			<property name="javax.persistence.jdbc.driver"
 				value="com.mysql.cj.jdbc.Driver" />
-				
-				 <property name="javax.persistence.schema-generation.database.action"
-                      value="update"/>
 
+			<property
+				name="javax.persistence.schema-generation.database.action"
+				value="update" />
 
 			<property name="hibernate.dialect"
 				value="org.hibernate.dialect.MySQL8Dialect" />
-
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
+			
+			<!-- Mínimo de conexões -->
+			<property name="hibernate.c3p0.min_size" value="5"/>
+			
+			<!-- Segundos que conexão inativa é mantida na pool -->
+			<property name="hibernate.c3p0.timeout" value="300"/>
+			
+			<!-- Total de transações, operações e instruções que são mantidos em cache -->
+			<property name="hibernate.c3p0.max_statements" value="50"/>
+			
+			<!-- Tempo ocioso antes de uma conexão ser validada -->
+			<property name="hibernate.c3p0.idle_test_period" value="120"/>
 		</properties>
 	</persistence-unit>
 </persistence>
