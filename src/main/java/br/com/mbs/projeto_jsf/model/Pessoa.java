@@ -16,6 +16,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Past;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 public class Pessoa implements Serializable {
@@ -25,10 +29,16 @@ public class Pessoa implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotBlank(message = "O nome deve ser informado")
 	private String nome;
+	
+	@NotBlank(message = "O sobrenome deve ser informado")
 	private String sobrenome;
+	
+	@DecimalMin(value = "18", message = "O usuário deve ter pelo menos 18 anos!")
 	private Integer idade;
-
+	
+	@Past(message = "A data deve ser válida")
 	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;
 

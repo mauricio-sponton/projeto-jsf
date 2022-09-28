@@ -63,7 +63,9 @@ public class PessoaBean {
 
 		}
 
-		processarImagem();
+		if(arquivo != null) {
+			processarImagem();
+		}
 
 		pessoa = DAOGenerico.merge(pessoa);
 		carregarPessoas();
