@@ -52,7 +52,7 @@
 				requiredMessage="Informe o nome do usuário" />
 
 			<h:outputLabel value="Sobrenome:" />
-			<h:inputText value="#{pessoaBean.pessoa.sobrenome}"
+			<h:inputText value="#{pessoaBean.pessoa.sobrenome}" valueChangeListener="#{pessoaBean.validaCampo}"
 				pt:placeholder="Ex: Sponton..." />
 
 			<h:outputLabel value="Idade:" />
@@ -166,7 +166,7 @@
 			<h:commandButton value="Novo" action="#{pessoaBean.novo}"
 				image="/resources/images/user-plus-solid.svg" styleClass="icones"
 				title="Novo" />
-			<h:commandButton style="margin-left:1em;" value="Salvar"
+			<h:commandButton style="margin-left:1em;" value="Salvar" actionListener="#{pessoaBean.registrarLog}"
 				styleClass="icones" image="/resources/images/floppy-disk-solid.svg"
 				action="#{pessoaBean.salvar}" title="Salvar" />
 			<h:commandButton style="margin-left:1em;" value="Remove"

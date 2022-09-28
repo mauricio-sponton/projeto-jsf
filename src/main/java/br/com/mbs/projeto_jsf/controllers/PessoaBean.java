@@ -22,6 +22,7 @@ import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -72,6 +73,18 @@ public class PessoaBean {
 		carregarCidadesEstados();
 		
 		return "";
+	}
+	
+	public void registrarLog() {
+		System.out.println("Teste de action listener");
+		System.out.println(pessoa.getNome());
+	}
+	
+	public void validaCampo(ValueChangeEvent event) {
+		
+		System.out.println("Valor antigo: " + event.getOldValue());
+		System.out.println("Valor novo: " + event.getNewValue());
+		
 	}
 
 	public String novo() {
