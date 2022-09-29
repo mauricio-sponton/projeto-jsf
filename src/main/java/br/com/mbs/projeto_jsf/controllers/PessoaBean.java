@@ -8,6 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -16,8 +17,6 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -25,6 +24,8 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.imageio.ImageIO;
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
@@ -36,22 +37,28 @@ import br.com.mbs.projeto_jsf.dao.DAOGenerico;
 import br.com.mbs.projeto_jsf.model.Estado;
 import br.com.mbs.projeto_jsf.model.Pessoa;
 import br.com.mbs.projeto_jsf.repository.CidadeRepository;
-import br.com.mbs.projeto_jsf.repository.CidadeRepositoryImpl;
 import br.com.mbs.projeto_jsf.repository.EstadoRepository;
-import br.com.mbs.projeto_jsf.repository.EstadoRepositoryImpl;
 import br.com.mbs.projeto_jsf.repository.PessoaRepository;
-import br.com.mbs.projeto_jsf.repository.PessoaRepositoryImpl;
 
-@ViewScoped
-@ManagedBean(name = "pessoaBean")
-public class PessoaBean {
-
+@javax.faces.view.ViewScoped
+@Named(value = "pessoaBean")
+public class PessoaBean implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	private Pessoa pessoa = new Pessoa();
-	private DAOGenerico<Pessoa> DAOGenerico = new DAOGenerico<Pessoa>();
 	private List<Pessoa> pessoas = new ArrayList<Pessoa>();
-	private PessoaRepository pessoaRepository = new PessoaRepositoryImpl();
-	private EstadoRepository estadoRepository = new EstadoRepositoryImpl();
-	private CidadeRepository cidadeRepository = new CidadeRepositoryImpl();
+	
+	@Inject
+	private DAOGenerico<Pessoa> DAOGenerico;
+	
+	@Inject
+	private PessoaRepository pessoaRepository;
+	
+	@Inject
+	private EstadoRepository estadoRepository;
+	
+	@Inject
+	private CidadeRepository cidadeRepository;
 	private List<SelectItem> estados;
 	private List<SelectItem> cidades;
 	private Part arquivo;

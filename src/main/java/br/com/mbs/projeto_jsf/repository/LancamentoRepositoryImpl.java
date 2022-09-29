@@ -1,22 +1,28 @@
 package br.com.mbs.projeto_jsf.repository;
 
+import java.io.Serializable;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 
 import br.com.mbs.projeto_jsf.model.Lancamento;
-import br.com.mbs.projeto_jsf.util.JPAUtil;
 
-public class LancamentoRepositoryImpl implements LancamentoRepository{
-
+@Named
+public class LancamentoRepositoryImpl implements LancamentoRepository, Serializable {
+	private static final long serialVersionUID = 1L;
+	
+	@Inject
+	private EntityManager entityManager;
+	
 	@Override
 	public List<Lancamento> findAll(Long idUsuario) {
 		List<Lancamento> lista = null;
-		
-		EntityManager manager = JPAUtil.getEntityManager();
-		lista = manager.createQuery("select l from Lancamento l where l.usuario.id = " + idUsuario).getResultList();
-		manager.close();
-		
+
+		lista = entityManager.createQuery("select l from Lancamento l where l.usuario.id = " + idUsuario)
+				.getResultList();
+
 		return lista;
 	}
 

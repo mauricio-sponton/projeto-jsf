@@ -1,24 +1,30 @@
 package br.com.mbs.projeto_jsf.repository;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 
 import br.com.mbs.projeto_jsf.model.Estado;
-import br.com.mbs.projeto_jsf.util.JPAUtil;
 
-public class EstadoRepositoryImpl implements EstadoRepository{
+@Named
+public class EstadoRepositoryImpl implements EstadoRepository, Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Inject
+	private EntityManager entityManager;
 
 	@Override
 	public List<SelectItem> listarEstados() {
-		
-		EntityManager manager = JPAUtil.getEntityManager();
+
 		List<SelectItem> items = new ArrayList<>();
-		
-		List<Estado> estados = manager.createQuery("select e from Estado e").getResultList();	
-		
+
+		List<Estado> estados = entityManager.createQuery("select e from Estado e").getResultList();
+
 		for (Estado estado : estados) {
 			items.add(new SelectItem(estado, estado.getNome()));
 		}
@@ -27,8 +33,6 @@ public class EstadoRepositoryImpl implements EstadoRepository{
 
 	@Override
 	public Estado findById(Long estadoId) {
-		
-		EntityManager manager = JPAUtil.getEntityManager();
-		return manager.find(Estado.class, estadoId);
+		return entityManager.find(Estado.class, estadoId);
 	}
 }

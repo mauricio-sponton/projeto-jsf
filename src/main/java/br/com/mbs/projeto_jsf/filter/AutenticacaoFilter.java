@@ -2,6 +2,7 @@ package br.com.mbs.projeto_jsf.filter;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -18,10 +19,13 @@ import br.com.mbs.projeto_jsf.util.JPAUtil;
 
 @WebFilter(urlPatterns = "/*")
 public class AutenticacaoFilter implements Filter {
+	
+	@Inject
+	private JPAUtil jpaUtil;
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		JPAUtil.getEntityManager();
+		jpaUtil.getEntityManager();
 	}
 
 	@Override
