@@ -40,6 +40,7 @@ import br.com.mbs.projeto_jsf.model.Pessoa;
 import br.com.mbs.projeto_jsf.repository.CidadeRepository;
 import br.com.mbs.projeto_jsf.repository.EstadoRepository;
 import br.com.mbs.projeto_jsf.repository.PessoaRepository;
+import net.bootsfaces.component.selectOneMenu.SelectOneMenu;
 
 @javax.faces.view.ViewScoped
 @Named(value = "pessoaBean")
@@ -196,7 +197,7 @@ public class PessoaBean implements Serializable {
 
 	public void carregaCidades(AjaxBehaviorEvent event) {
 
-		Estado estado = (Estado) ((HtmlSelectOneMenu) event.getSource()).getValue();
+		Estado estado = (Estado) ((SelectOneMenu) event.getSource()).getValue();
 
 		if (estado != null) {
 			pessoa.setEstado(estado);
