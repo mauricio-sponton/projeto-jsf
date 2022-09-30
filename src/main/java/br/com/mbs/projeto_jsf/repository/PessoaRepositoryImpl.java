@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import br.com.mbs.projeto_jsf.model.Pessoa;
 
@@ -18,11 +19,18 @@ public class PessoaRepositoryImpl implements PessoaRepository, Serializable {
 	@Override
 	public Pessoa findByLoginESenha(String login, String senha) {
 
-		Pessoa pessoa = (Pessoa) entityManager
-				.createQuery("select p from Pessoa p where p.login = '" + login + "' and p.senha = '" + senha + "'")
-				.getSingleResult();
+		try {
 
-		return pessoa;
+			Pessoa pessoa = (Pessoa) entityManager
+					.createQuery("select p from Pessoa p where p.login = '" + login + "' and p.senha = '" + senha + "'")
+					.getSingleResult();
+			return pessoa;
+
+		} catch (NoResultException e) {
+			e.printStackTrace();
+			return null;
+		}
+
 	}
 
 }

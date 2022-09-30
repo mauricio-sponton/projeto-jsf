@@ -26,6 +26,7 @@ import javax.faces.model.SelectItem;
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
@@ -42,21 +43,21 @@ import br.com.mbs.projeto_jsf.repository.PessoaRepository;
 
 @javax.faces.view.ViewScoped
 @Named(value = "pessoaBean")
-public class PessoaBean implements Serializable{
+public class PessoaBean implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private Pessoa pessoa = new Pessoa();
 	private List<Pessoa> pessoas = new ArrayList<Pessoa>();
-	
+
 	@Inject
 	private DAOGenerico<Pessoa> DAOGenerico;
-	
+
 	@Inject
 	private PessoaRepository pessoaRepository;
-	
+
 	@Inject
 	private EstadoRepository estadoRepository;
-	
+
 	@Inject
 	private CidadeRepository cidadeRepository;
 	private List<SelectItem> estados;
@@ -71,27 +72,27 @@ public class PessoaBean implements Serializable{
 
 		}
 
-		if(arquivo != null) {
+		if (arquivo != null) {
 			processarImagem();
 		}
 
 		pessoa = DAOGenerico.merge(pessoa);
 		carregarPessoas();
 		carregarCidadesEstados();
-		
+
 		return "";
 	}
-	
+
 	public void registrarLog() {
 		System.out.println("Teste de action listener");
 		System.out.println(pessoa.getNome());
 	}
-	
+
 	public void validaCampo(ValueChangeEvent event) {
-		
+
 		System.out.println("Valor antigo: " + event.getOldValue());
 		System.out.println("Valor novo: " + event.getNewValue());
-		
+
 	}
 
 	public String novo() {
@@ -136,6 +137,9 @@ public class PessoaBean implements Serializable{
 			ExternalContext externalContext = getContext();
 			externalContext.getSessionMap().put("usuarioLogado", pessoaEcontrada);
 			return "cadastro-pessoa.jsf";
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuário não encontrado"));
+
 		}
 
 		return "index.jsf";
@@ -204,9 +208,10 @@ public class PessoaBean implements Serializable{
 	public void downloadArquivo() throws IOException {
 		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		String fileDownloadId = params.get("fileDownloadId");
-		
+
 		Pessoa pessoa = DAOGenerico.consultar(Pessoa.class, fileDownloadId);
-		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
+				.getResponse();
 		response.addHeader("Content-Disposition", "attachment; filename=download." + pessoa.getExtensao());
 		response.setContentType("application/octet-stream");
 		response.setContentLength(pessoa.getFoto().length);

@@ -1,27 +1,47 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:b="http://bootsfaces.net/ui">
 
 <h:head>
 	<title>Login</title>
+	<style>
+.center {
+	margin: 16em auto auto auto;
+	width: 50%;
+	padding: 10px;
+}
+</style>
 </h:head>
 
 <h:body>
-	<h:form>
-		<h1>Login</h1>
-		
-		<h:panelGrid columns="2">
-			<h:outputLabel value="Login: "/>
-			<h:inputText value="#{pessoaBean.pessoa.login}" />
+	<b:container fluid="true">
+		<b:form styleClass="center"> 
+		<b:messages id="msg-erro" global-only="true"/>
+			<b:column>
+				<h1>Login</h1>
+			</b:column>
 			
-			<h:outputLabel value="Senha: "/>
-			<h:inputSecret value="#{pessoaBean.pessoa.senha}"/>
-			
-			<h:commandButton value="Acessar" action="#{pessoaBean.logar}"/>
-		</h:panelGrid>
+			<b:column>
+				<b:inputText label="Login: " id="login"
+					value="#{pessoaBean.pessoa.login}" required="true"
+					requiredMessage="Informe seu login" />
+				<b:messages for="login"/>
+			</b:column>
 
-	</h:form>
+			<b:column>
+				<b:inputSecret label="Senha: " id="senha"
+					value="#{pessoaBean.pessoa.senha}" required="true"
+					requiredMessage="Informe sua senha" />
+				<b:messages for="senha" />
+			</b:column>
+
+			<b:column>
+				<b:commandButton value="Acessar" action="#{pessoaBean.logar}" />
+			</b:column>
+		</b:form>
+	</b:container>
 </h:body>
 
 
