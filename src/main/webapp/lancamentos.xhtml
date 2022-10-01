@@ -43,21 +43,23 @@
 			</f:facet>
 
 			<b:column>
-				<b:inputText label="ID: " value="#{lancamentoBean.lancamento.id}"
+				<b:inputText label="ID: " value="#{lancamentoBean.lancamento.id}" 
 					readonly="true" />
 			</b:column>
 			<b:column>
 				<b:inputText label="Nota fiscal: "
 					value="#{lancamentoBean.lancamento.notaFiscal}" />
 			</b:column>
-			<b:column>
-				<b:inputText label="Empresa origem: "
+			<b:formGroup>
+				<b:inputText label="Empresa origem: " span="6"
 					value="#{lancamentoBean.lancamento.empresaOrigem}" />
-			</b:column>
-			<b:column>
-				<b:inputText label="Empresa destino: "
+				<b:inputText label="Empresa destino: " span="6"
 					value="#{lancamentoBean.lancamento.empresaDestino}" />
-			</b:column>
+			</b:formGroup>
+			<b:formGroup>
+				<b:datepicker label="Data Inicial" col-sm="6"  required="true" required-message="Data inicial é obrigatória" value="#{lancamentoBean.lancamento.dataInicial}"/>
+				<b:datepicker label="Data Final" col-sm="6"  required="true" required-message="Data final é obrigatória" value="#{lancamentoBean.lancamento.dataFinal}"/>
+			</b:formGroup>
 
 			<h:panelGroup layout="block" style="margin: 0.5em 0 1em 0;">
 				<h:commandButton value="Novo" action="#{lancamentoBean.novo}"

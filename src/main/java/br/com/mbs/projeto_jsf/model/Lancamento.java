@@ -1,6 +1,7 @@
 package br.com.mbs.projeto_jsf.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -9,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Lancamento implements Serializable {
@@ -21,6 +24,12 @@ public class Lancamento implements Serializable {
 	private String notaFiscal;
 	private String empresaOrigem;
 	private String empresaDestino;
+
+	@Temporal(TemporalType.DATE)
+	private Date dataInicial;
+
+	@Temporal(TemporalType.DATE)
+	private Date dataFinal;
 
 	@ManyToOne
 	@JoinColumn(nullable = false)
@@ -56,6 +65,22 @@ public class Lancamento implements Serializable {
 
 	public void setEmpresaDestino(String empresaDestino) {
 		this.empresaDestino = empresaDestino;
+	}
+
+	public Date getDataInicial() {
+		return dataInicial;
+	}
+
+	public void setDataInicial(Date dataInicial) {
+		this.dataInicial = dataInicial;
+	}
+
+	public Date getDataFinal() {
+		return dataFinal;
+	}
+
+	public void setDataFinal(Date dataFinal) {
+		this.dataFinal = dataFinal;
 	}
 
 	public Pessoa getUsuario() {
