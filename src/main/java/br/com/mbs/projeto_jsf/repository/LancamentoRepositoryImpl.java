@@ -27,8 +27,24 @@ public class LancamentoRepositoryImpl implements LancamentoRepository, Serializa
 	}
 
 	@Override
-	public List<Lancamento> relatorio(String notaFiscal, Date dataInicial, Date dataFinal) {
-		return null;
+	public List<Lancamento> relatorio(String notaFiscal, String dataInicial, String dataFinal) {
+		
+		StringBuilder builder = new StringBuilder();
+		builder.append("select l from Lancamento l where 1 = 1");
+		
+		if(!notaFiscal.isEmpty()) {
+			builder.append(" and l.notaFiscal = " + notaFiscal);
+		}
+		
+		if(dataInicial != null) {
+			builder.append(" and l.dataInicial >= '" + dataInicial + "'");
+		}
+		
+		if(dataFinal != null) {
+			builder.append(" and l.dataFinal <= '" + dataFinal + "'");
+		}
+		
+		return entityManager.createQuery(builder.toString()).getResultList();
 	}
 
 }

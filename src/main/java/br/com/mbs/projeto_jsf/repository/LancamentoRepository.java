@@ -8,5 +8,5 @@ import br.com.mbs.projeto_jsf.model.Lancamento;
 public interface LancamentoRepository {
 
 	List<Lancamento> findAll(Long idUsuario);
-	List<Lancamento> relatorio(String notaFiscal, Date dataInicial, Date dataFinal);
+	List<Lancamento> relatorio(String notaFiscal, String dataInicialConvertida, String dataFinalConvertida);
 }

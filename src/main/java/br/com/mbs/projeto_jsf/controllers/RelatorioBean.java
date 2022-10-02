@@ -1,18 +1,18 @@
 package br.com.mbs.projeto_jsf.controllers;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.mbs.projeto_jsf.dao.DAOGenerico;
 import br.com.mbs.projeto_jsf.model.Lancamento;
 import br.com.mbs.projeto_jsf.repository.LancamentoRepository;
-
-import javax.faces.view.ViewScoped;
 
 @ViewScoped
 @Named(value = "relatorioBean")
@@ -32,6 +32,17 @@ public class RelatorioBean implements Serializable {
 
 	public void buscar() {
 		lancamentos = daoGenerico.getListEntity(Lancamento.class);
+		
+		if(!numeroNotaFiscal.isEmpty() || dataInicial != null || dataFinal != null) {
+			String dataInicialConvertida = converterData(dataInicial);
+			String dataFinalConvertida = converterData(dataFinal);
+			lancamentos = lancamentoRepository.relatorio(numeroNotaFiscal, dataInicialConvertida, dataFinalConvertida);
+		}
+		
+	}
+	
+	private String converterData(Date data) {
+		return data != null ? new SimpleDateFormat("yyyy-MM-dd").format(data) : null;
 	}
 
 	public Date getDataInicial() {

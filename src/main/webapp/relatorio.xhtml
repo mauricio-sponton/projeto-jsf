@@ -38,10 +38,10 @@
 
 			<b:formGroup>
 				<b:datepicker label="Data de Inicial: "
-					value="#{relatorioBean.dataInicial}" span="6" />
+					value="#{relatorioBean.dataInicial}" span="6" lang="br" />
 
 				<b:datepicker label="Data Final: "
-					value="#{relatorioBean.dataFinal}" span="6" />
+					value="#{relatorioBean.dataFinal}" span="6" lang="br"/>
 
 			</b:formGroup>
 			
@@ -60,6 +60,7 @@
 				pdf="true" excel="true" style-class="tabela">
 
 				<b:dataTableColumn value="#{l.id}" />
+				<b:dataTableColumn value="#{l.notaFiscal}" label="Nota Fiscal" />
 				<b:dataTableColumn value="#{l.usuario.nome}" label="Usuário" />
 				<b:dataTableColumn value="#{l.dataInicial}" label="Data Inicial" />
 				<b:dataTableColumn value="#{l.dataFinal}" label="Data Final" />
