@@ -80,11 +80,9 @@
 					<f:validateLength minimum="2" maximum="3" />
 				</b:inputText>
 
-				<b:inputText label="Data de Nascimento: "
-					value="#{pessoaBean.pessoa.dataNascimento}" span="6"
-					pt:placeholder="Ex: 11/08/1990" converterMessage="Formato inválido">
-					<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" />
-				</b:inputText>
+				<b:datepicker label="Data de Nascimento: "
+					value="#{pessoaBean.pessoa.dataNascimento}" span="6" />
+					
 			</b:formGroup>
 
 
